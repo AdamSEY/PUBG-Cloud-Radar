@@ -1,18 +1,18 @@
 #!/bin/bash
-echo "欢迎使用一键搭建"
-echo "即将搭建的是4.30版本，本地地图版"
-echo "准备开始安装"
-read -p "回车后开始安装"
-echo "请输入你的内网ip" 
-read -p "内网ip： " ip
+echo "Welcome to use one-click build"
+echo "The upcoming version is 4.30, local map version"
+echo "Ready to start installation"
+read -p "Start the installation after the carriage return"
+echo "Please enter your internet ip"
+read -p "ip： " ip
 cp /root/PUBG-Cloud-Radar/restart.sh /root/restart.sh
 chmod +x restart.sh
 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
 chmod +x shadowsocks-all.sh
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
-echo "ss搭建成，请记住连接信息"
-read -p "记住了吗？任意键继续" 
+echo "ss build, please remember the connection information"
+read -p "done? Any key to continue"
 
 curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash
 source ~/.bash_profile
@@ -21,6 +21,7 @@ nvm alias default v9.8.0
 yum -y install gcc-c++
 yum -y install flex
 yum -y install bison
+yum -y install wget
 wget http://www.tcpdump.org/release/libpcap-1.8.1.tar.gz
 tar -zxvf libpcap-1.8.1.tar.gz
 cd libpcap-1.8.1
@@ -33,6 +34,7 @@ cd PUBG-Cloud-Radar/
 npm i
 npm i -g pino
 npm install -g forever
-forever start index.js sniff eth0 $ip | pino
+npm install -g pino-pretty
+forever start index.js sniff eth0 $ip | pino-pretty
 
 echo "搭建完成"
